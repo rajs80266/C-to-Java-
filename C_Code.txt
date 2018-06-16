@@ -1,0 +1,68 @@
+#include<stdio.h>
+#include<cstring>
+ 
+void main()
+{
+    int N,Q,R,l,s,ans,i,j,A[100000],temp;
+    char S[100000][11],P[11],t[11];
+    
+    scanf("%d",&N);
+    for(int i=0;i<N;i++)
+    {
+        scanf("%s",S[i]);
+        A[i]=i;
+    }
+    
+    for(i=0; i<N-1; i++)
+	{
+		for(j=0; j<N-1-i; j++)
+		{
+			if(strcmp(S[j], S[j+1])>0)
+			{
+				strcpy(t, S[j+1]);
+				strcpy(S[j+1], S[j]);
+				strcpy(S[j], t);
+				
+				temp=A[j];
+				A[j]=A[j+1];
+				A[j+1]=temp;
+			}
+		}
+	}
+    
+    scanf("%d",&Q);
+    while(Q--)
+    {
+        scanf("%d %s",&R,P);
+        
+        for(j=0;A[j]>=R;j++);
+        
+        for(i=0;S[j][i]!='\0' && P[i]!='\0';i++)
+        {
+            if(S[j][i]!=P[i])
+            {
+				break;
+			}
+        }
+        l=i;
+        ans=j;    
+        for(i=j+1;i<N;i++)
+        {
+            if(A[i]>=R)
+            {
+				continue;
+            }
+			j=0;
+            while(P[j]==S[i][j] && P[j]!='\0' && S[i][j]!='\0')
+            {
+				j++;
+            }
+            if(j>l)
+            {
+                ans=i;
+                l=j;
+            }
+        }
+        printf("%s\n",S[ans]);
+    }
+}    

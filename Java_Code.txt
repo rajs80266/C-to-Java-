@@ -1,0 +1,85 @@
+import java.util.*;
+import java.io.*;
+
+class main
+{
+	static Scanner sc=new Scanner(System.in);	 
+	 
+	public static void main(String args[])
+	{
+		int N;
+		int Q;
+		int R;
+		int l;
+		int s;
+		int ans;
+		int i;
+		int j;
+		int []A = new int [100000];
+		int temp;
+		
+		char [][]S = new char [100000][11];
+		char []P = new char [11];
+		char []t = new char [11];
+		
+		N=sc.nextInt();
+		
+		for(int i=0;i<N;i++)
+		{
+			S[i]=sc.next();
+			
+			A[i]=i;
+		}
+		for(i=0; i<N-1; i++)
+		{
+			for(j=0; j<N-1-i; j++)
+			{
+				if(strcmp(S[j], S[j+1])>0)
+				{
+					strcpy(t, S[j+1]);
+					strcpy(S[j+1], S[j]);
+					strcpy(S[j], t);
+					temp=A[j];
+					A[j]=A[j+1];
+					A[j+1]=temp;
+				}
+			}
+		}
+		Q=sc.nextInt();
+		
+		while(Q--)
+		{
+			R=sc.nextInt();
+			P=sc.next();
+			
+			for(j=0;A[j]>=R;j++);
+			for(i=0;S[j][i]!='\0' && P[i]!='\0';i++)
+			{
+				if(S[j][i]!=P[i])
+				{
+					break;
+				}
+			}
+			l=i;
+			ans=j;    
+			for(i=j+1;i<N;i++)
+			{
+				if(A[i]>=R)
+				{
+					continue;
+				}
+				j=0;
+				while(P[j]==S[i][j] && P[j]!='\0' && S[i][j]!='\0')
+				{
+					j++;
+				}
+				if(j>l)
+				{
+					ans=i;
+					l=j;
+				}
+			}
+			System.out.print(""+S[ans]+"\n");
+		}
+	}    
+}
